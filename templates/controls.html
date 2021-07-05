@@ -1,0 +1,108 @@
+<html>
+<head>
+    <title>Surveillance</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/util.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"/>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css"/>
+    <style>
+        table {
+          border-collapse: separate;
+          border-spacing: 0 150px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand navigation_primary" href="/">Surveillance</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link navigation_font" href="/">Home</a>
+            </li>
+            &nbsp; &nbsp;&nbsp;&nbsp;
+            <li class="nav-item">
+                <a class="nav-link navigation_font" href="/controls">Controls</a>
+            </li>
+            &nbsp; &nbsp;&nbsp;&nbsp;
+            <li class="nav-item">
+                <a class="nav-link navigation_font" href="/get_gifs">Movement Gifs</a>
+            </li>
+            &nbsp; &nbsp;&nbsp;&nbsp;
+            <li class="nav-item">
+                <a class="nav-link navigation_font" href="/get_move_videos">Movement Videos</a>
+            </li>
+            &nbsp; &nbsp;&nbsp;&nbsp;
+            <li class="nav-item">
+                <a class="nav-link navigation_font" href="/recordings">Recordings</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav nav-right">
+            <li><a class="nav-link navigation_font" href="/logout">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row m-t-100">
+        <table style="width:70%">
+            <tr>
+                <th>
+                    <label for="id1"><p style="font-size: 2.5em">The motion detection function is:</p></label>
+                </th>
+                <th>
+                    <input id="id1" name="id1" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="ON" data-off="OFF">
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <label for="id2"><p style="font-size: 2.5em">Continuous recording function is:</p></label>
+                </th>
+                <th>
+                    <input id="id2" name="id2" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="ON" data-off="OFF">
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.js"></script>
+<script>
+  $(function() {
+      $(document).ready(function(){
+          if({{ v1 }})
+                $('#id1').prop('checked', true).change();
+          else
+                $('#id1').prop('checked', false).change();
+          if({{ v2 }})
+                $('#id2').prop('checked', true).change();
+          else
+                $('#id2').prop('checked', false).change();
+          }
+      );
+    $('#id1, #id2').change(function() {
+        var movement = $('#id1').prop('checked') == true ? 1 : 0;
+        var record = $('#id2').prop('checked') == true ? 1 : 0;
+
+        $.ajax({
+            type: 'POST',
+            url: '/controls_post',
+            data: JSON.stringify({'movement': movement, 'record' : record}),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        })
+        .done(function(data){
+            if (data.error){
+                alert('Something went wrong');
+            }
+        })
+    })
+  })
+</script>
+</body>
+</html>

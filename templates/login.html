@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>Surveillance</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/util.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"/>
+    </head>
+    <body>
+        <div class="container-login100">
+            <div class="wrap-login100 p-t-70 p-b-10">
+                <form class="login100-form" method = "POST">
+                    <span class="login100-form-title p-b-70">
+                            Welcome
+                    </span>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <div class="login100-error">
+                                <span>{{ messages[0] }}</span>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+
+
+                    <div class="wrap-input100 validate-input m-t-85 m-b-35">
+                        <input class="input100" type="text" name="email">
+                        <span class="focus-input100" data-placeholder="Email"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-50">
+                        <input class="input100" type="password" name="password">
+                        <span class="focus-input100" data-placeholder="Password"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <button type = "submit" class="login100-form-btn">
+                            Login
+                        </button>
+                    </div>
+
+                    <ul class="login-more p-t-80">
+                        <li>
+                            <span class="txt1">
+                                Not a user?
+                            </span>
+                            <a href="/register" class="txt2">
+                                Register!
+                            </a>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    </body>
+</html>
